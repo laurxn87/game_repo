@@ -1,7 +1,5 @@
 import * as THREE from 'three';
-import bottomBunModel from '../components/bottomBunModel.js';
-import topBunModel from '../components/topBunModel.js';
-import pattyModel from '../components/pattyModel.js';
+import fillingModel from '../components/fillingModel.js';
 import collision from '../components/collision.js';
 import Entity from './Entity.js';
 
@@ -13,28 +11,44 @@ export default class filling extends Entity{
         this.falling = false;
         this.model = "";
         this.caught = false;
+        this.noUpdate = false;
         this.clock = new THREE.Clock();
         this.name = name;
         this.addComponent(new collision(this, "collision", "collision"));
- 
     }
 
     start(scene){
-        console.log(this.name);
-
         if(this.name == "topBun"){
             this.model = "topBunModel";
-            this.addComponent(new topBunModel(this, "topBunModel", 0));
+            this.addComponent(new fillingModel(this, "topBunModel", 0));
 
         }
         else if(this.name == "patty"){
             this.model = "pattyModel";
-            this.addComponent(new pattyModel(this, "pattyModel", 0));
+            this.addComponent(new fillingModel(this, "pattyModel", 0));
         }
+        else if(this.name == "cheese"){
+            this.model = "cheeseModel";
+            this.addComponent(new fillingModel(this, "cheeseModel", 0));
+        }
+        else if(this.name == "lettuce"){
+            this.model = "lettuceModel";
+            this.addComponent(new fillingModel(this, "lettuceModel", 0));
+        }
+        else if(this.name == "tomato"){
+            this.model = "tomatoModel";
+            this.addComponent(new fillingModel(this, "tomatoModel", 0));
+        }
+        else if(this.name == "onion"){
+            this.model = "onionModel";
+            this.addComponent(new fillingModel(this, "onionModel", 0));
+        }
+
         else{
             console.log(this.name, "error - not a valid filling type");
         }
         
+        this.getComponent("collision").setCollisionBox(1,1,1);  
         this.getComponent("collision").start(scene);
         this.clock.start();
         this.drop(scene);
@@ -42,24 +56,29 @@ export default class filling extends Entity{
 
     }
 
-    update(){
+    update(scene){
 
         this.getComponent(this.model).update();
 
-        this.getComponent("collision").update();
-        // if(this.getComponent("collision").hasCollided()){
-        //     if(this.getComponent("collision").collidedWith.name == "tower"){
-        //         this.falling = false;
-        //         this.caught = true;
-        //         this.getComponent("collision").resetCollision();
-        //     }
-        // }
-        // if(this.caught){
-        //     // follow the parent = tower position
-        //     console.log('caught');
-        //     this.position.x = this.parent.position.x;
-        //     this.position.z = this.parent.position.z;
-        // }
+        this.getComponent("collision").updateFilling();
+        var tower = null;
+        if(this.getComponent("collision").hasCollided()){
+            if(this.getComponent("collision").collidingWith.name == "tower"){
+                tower = this.getComponent("collision").collidingWith;
+                this.falling = false;
+                this.caught = true;
+                this.getComponent("collision").resetCollision();
+            }
+        }
+        if(this.caught){
+            if(this.noUpdate){
+                return;
+            }
+            // follow the parent = tower position
+            tower.addFillingToTower(scene,this);
+            this.getComponent(this.model).falling = false;
+            this.noUpdate = true;
+        }
 
     }
 

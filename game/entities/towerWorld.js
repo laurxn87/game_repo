@@ -3,10 +3,12 @@ import Entity from './Entity.js';
 import map from './map.js';
 import tower from './tower.js';
 import {OrbitControls} from 'OrbitControls';
+import dropper from './dropper.js';
 
 let camera, controls, scene, renderer, canvas;
 let mapCam;
-let t;
+let t; // tower
+let d; // dropper
 
 export default class towerWorld extends Entity{
     constructor(){
@@ -14,7 +16,7 @@ export default class towerWorld extends Entity{
 
         this.map = null;
         // this.tower = null;
-        this.fillings = ["patty", "topBun"];
+        this.fillings = ["patty", "topBun", "cheese", "lettuce", "tomato", "onion"];
         this.height = 0;
         this.order = [];
     }
@@ -34,6 +36,9 @@ export default class towerWorld extends Entity{
         mapCam = camera;
         // Create the renderer
         renderer = new THREE.WebGLRenderer({canvas});
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+    
 
         // Set the size
         renderer.setSize( window.innerWidth, window.innerHeight );
@@ -47,7 +52,13 @@ export default class towerWorld extends Entity{
 
         var directionalLight = new THREE.DirectionalLight( 0xffffff, 10.0 );
         directionalLight.position.set( 0, 1, 0 );
+        directionalLight.castShadow = true;
         scene.add( directionalLight );
+
+        directionalLight.shadow.mapSize.width = 1024;  // default
+        directionalLight.shadow.mapSize.height = 1024; // default
+        directionalLight.shadow.camera.near = 0.5;       // default
+        directionalLight.shadow.camera.far = 500;      // default
 
         // Create the controls
         controls = new OrbitControls(camera, renderer.domElement );
@@ -65,10 +76,17 @@ export default class towerWorld extends Entity{
         // Create the tower
         t = new tower(this, "tower", "tower");
         t.start(scene, this.order);
+        this.addChild(t);
+
+        // Create the dropper
+        d = new dropper(this, "dropper", "dropper");
+        d.start(scene);
+        this.addChild(d);
 
         // Add the event listeners
         window.addEventListener( 'resize', this.onWindowResize, false );
-        window.addEventListener( 'mousemove', this.onMouseMove, false );
+        // window.addEventListener( 'mousemove', this.onMouseMove, false );
+        window.addEventListener( 'keydown', this.onKeyDown, false );
 
         // Start the game loop
         this.update();
@@ -79,6 +97,7 @@ export default class towerWorld extends Entity{
     update(){
         this.map.update();
         t.update(scene);
+        d.update(scene);
         renderer.render( scene, camera );
         requestAnimationFrame(this.update.bind(this));
     }
@@ -91,13 +110,32 @@ export default class towerWorld extends Entity{
         controls.update();
     }
 
-    onMouseMove(event){
-        // calculate mouse position in normalized device coordinates
-        // (-1 to +1) for both components
-        var mouse = new THREE.Vector2();
-        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    // onMouseMove(event){
+    //     // calculate mouse position in normalized device coordinates
+    //     // (-1 to +1) for both components
+    //     var mouse = new THREE.Vector2();
+    //     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    //     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-        t.followMouse(mouse);
+    //     t.followMouse(mouse.x, mouse.y);
+    // }
+
+    onKeyDown(event){
+        switch(event.key){
+            case 'w':
+                t.controlTower("up");
+                break;
+            case 's':
+                t.controlTower("down");
+                break;
+            case 'a':
+                t.controlTower("left");
+                break;
+            case 'd':
+                t.controlTower("right");
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -1,27 +1,29 @@
 import * as THREE from 'three';
-import Component from './Component.js';
+import Component from '../components/Component.js';
 
-
-export default class pattyModel extends Component{
+export default class topBunModel extends Component{
     constructor(parentEntity, name, id){
         super(parentEntity, name, id);
         this.parent = parentEntity;
         this.position = new THREE.Vector3(0,0,0);
-        this.rotation = new THREE.Vector3(0,0,0);
+        this.rotation = new THREE.Vector3(0,10,0);
         this.falling = false;
         this.velocity = 0;
 
         var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        var material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
+        var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
         this.model = new THREE.Mesh( geometry, material );
-        this.model.position.set(0,0,0);
+        this.model.position.set(0,10,0);
+
+
+
     }
 
-    start(scene){
+    start(scene, x,z){
         // load a cube for now
-
         scene.add(this.model);
-        this.position = new THREE.Vector3(0,10,0);
+        this.position = new THREE.Vector3(x,10,z);
+
     }
 
     update(){
@@ -33,9 +35,10 @@ export default class pattyModel extends Component{
             this.position.y = this.position.y + u*t + 0.5*a*t*t;
 
         }
-
+        // console.log('model pos',this.position);
         this.parent.position = this.position;
-
+        // console.log('model pos',this.position);
+        
         if(this.model != null){ 
             this.model.position.x = this.position.x;
             this.model.position.y = this.position.y;
@@ -54,4 +57,6 @@ export default class pattyModel extends Component{
         this.model = null;
         this.parent = null;
     }
+
+
 }

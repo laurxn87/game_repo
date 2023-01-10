@@ -26,7 +26,6 @@ export default class bottomBunModel extends Component{
         this.parent.rotation = this.rotation;
         if(model != null){ 
             model.position.x = this.position.x;
-            model.position.y = this.position.y;
             model.position.z = this.position.z;
             model.rotation.y = this.rotation.y;
         }

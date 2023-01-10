@@ -19,6 +19,7 @@ export default class mapModel extends Component{
         this.model = new THREE.Mesh( geometry, material );
         this.model.position.set(0,0,0);
         this.model.rotation.x = Math.PI / 2;
+        this.model.receiveShadow = true;
         scene.add(this.model);
     }
 
