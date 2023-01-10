@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+<button id = "button1"><a href = "./driving.html">Level 1: Driving Game</a></button>
+<button id = "button1a"><a href = "./drivingInfo.html">Level 1: Info</a></button>
+<button id = "button2"><a href = "./tower.html">Level 2: Tower Game</a></button>
+<button id = "button2a"><a href = "./towerInfo.html">Level 2: Info</a></button>
+<button id = "button3"><a href = "./main.html">Exit</a></button>
+
+
+<head>
+    <title>Example - Resize Scene</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../Common/css/default.css">
+    <script type = "importmap">
+        {
+            "imports": {
+                "three": "../Common/build/three.module.js",
+                "TrackballControls": "../Common/examples/jsm/controls/TrackballControls.js",
+                "GLTFLoader": "../Common/examples/jsm/loaders/GLTFLoader.js",
+                "OrbitControls": "../Common/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+</head>
+
+<body>
+   <canvas id="gl-canvas" width="1024" height="1024"></canvas>
+   <script type="module" charset="UTF-8" src="main.js"></script>
+</body>
+
+</html>
