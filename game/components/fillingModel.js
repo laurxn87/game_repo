@@ -45,7 +45,7 @@ export default class fillingModel extends Component{
             console.log("Error: " + name + " is not a valid filling name");
         }
         this.model.castShadow = true;
-        this.model.receiveShadow = false;
+        this.model.receiveShadow = true;
     }
 
     start(scene, x, z){

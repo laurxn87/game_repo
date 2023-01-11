@@ -17,6 +17,8 @@ export default class bottomBunModel extends Component{
         var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
         model = new THREE.Mesh( geometry, material );
         model.position.set(0,1,0);
+        model.castShadow = true;
+        model.receiveShadow = true;
         scene.add(model);
         this.position = new THREE.Vector3(0,1,0);
     }

@@ -4,11 +4,13 @@ import map from './map.js';
 import tower from './tower.js';
 import {OrbitControls} from 'OrbitControls';
 import dropper from './dropper.js';
+import order from './order.js';
 
 let camera, controls, scene, renderer, canvas;
 let mapCam;
 let t; // tower
 let d; // dropper
+let o; // order
 
 export default class towerWorld extends Entity{
     constructor(){
@@ -51,14 +53,15 @@ export default class towerWorld extends Entity{
         scene.add( light );
 
         var directionalLight = new THREE.DirectionalLight( 0xffffff, 10.0 );
-        directionalLight.position.set( 0, 1, 0 );
+        directionalLight.position.set( -10, 500, 10 );
         directionalLight.castShadow = true;
-        scene.add( directionalLight );
-
         directionalLight.shadow.mapSize.width = 1024;  // default
         directionalLight.shadow.mapSize.height = 1024; // default
         directionalLight.shadow.camera.near = 0.5;       // default
         directionalLight.shadow.camera.far = 500;      // default
+        directionalLight.shadowCameraVisible = true;
+        scene.add( directionalLight );
+
 
         // Create the controls
         controls = new OrbitControls(camera, renderer.domElement );
@@ -82,6 +85,10 @@ export default class towerWorld extends Entity{
         d = new dropper(this, "dropper", "dropper");
         d.start(scene);
         this.addChild(d);
+
+        o = new order(this, "order", "order");
+        o.start(this.order);
+        this.addChild(o);
 
         // Add the event listeners
         window.addEventListener( 'resize', this.onWindowResize, false );
