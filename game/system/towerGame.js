@@ -1,16 +1,30 @@
 import towerWorld from '../entities/towerWorld.js';
 
+let world;
+
 export default class towerGame {
     constructor(){
-        this.world = null;
     }   
 
     start(){
+        world = new towerWorld();
+        world.start();
+        const pauseButton = document.getElementById("pauseButton");
+        pauseButton.addEventListener("click", this.pauseGame);
 
-        this.world = new towerWorld();
-        this.world.start();
+    }
 
-        // exit the game with the button
+    pauseGame(){
+        world.pauseWorld();
+    }
+
+    gameOver(){
+        world.gameOver();
+        // make a pop up window
+        // ask if they want to play again
+        // if yes, restart the game
+        // if no, go back to the main menu
+
     }
 }
 

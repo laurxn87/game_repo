@@ -11,7 +11,7 @@ export default class tower extends Entity{
         this.name = name;
         this.height = 0;
         this.tower = [];
-        this.order = null;
+        this.order = null; //order object
         this.addComponent(new collision(this, "collision", "collision"));
     }
 
@@ -26,8 +26,6 @@ export default class tower extends Entity{
         this.getComponent("collision").setCollisionBox(1,1,1);
         this.getComponent("collision").start(scene);
     
-
-
     }
 
 
@@ -45,12 +43,14 @@ export default class tower extends Entity{
         this.height++;
         this.position.y = this.height + 2.01;  
         // check if the tower is corrrect
-        if(this.order[this.height] == foodItem.name){
-            if(this.height == this.order.length - 1){
-                // the tower is complete
-                console.log("Tower complete");
+        if(this.order.checkNext(foodItem.name)){
+            console.log("Correct");
+            this.order.next();
+            if(this.order.empty()){
+                console.log("Order complete");
             }
         }else{
+            // 
             console.log("Game over");
         }
         // update the collision component
@@ -63,13 +63,13 @@ export default class tower extends Entity{
     controlTower(direction){
         // move the tower left or right
         if(direction == "left"){
-            this.position.x -= 0.2;
+            this.position.x -= 0.3;
         }else if(direction == "right"){
-            this.position.x += 0.2;
+            this.position.x += 0.3;
         }else if(direction == "up"){
-            this.position.z -= 0.2;
+            this.position.z -= 0.3;
         }else if(direction == "down"){
-            this.position.z += 0.2;
+            this.position.z += 0.3;
         }else{
             console.log("Invalid direction");
         }
@@ -77,11 +77,6 @@ export default class tower extends Entity{
             this.tower[i].position.x = this.position.x;
             this.tower[i].position.z = this.position.z;
         }
-    }
-
-    followMouse(mouseX, mouseY){
-        this.position.x = mouseX;
-        this.position.z = mouseY;
     }
 
     destroy(){

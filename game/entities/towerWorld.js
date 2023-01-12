@@ -21,7 +21,11 @@ export default class towerWorld extends Entity{
         this.fillings = ["patty", "topBun", "cheese", "lettuce", "tomato", "onion"];
         this.height = 0;
         this.order = [];
+
+        this.pause = false;
     }
+
+
 
     start(){
         // Get the canvas
@@ -72,13 +76,18 @@ export default class towerWorld extends Entity{
         this.addChild(this.map);
 
         // make an order - for now just a random order of food items
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 5; i++) {
             this.order.push(this.fillings[Math.floor(Math.random() * this.fillings.length)]);
         }
 
+        // Create the order
+        o = new order(this, "order", "order");
+        o.start(this.order);
+        this.addChild(o);
+
         // Create the tower
         t = new tower(this, "tower", "tower");
-        t.start(scene, this.order);
+        t.start(scene, o);
         this.addChild(t);
 
         // Create the dropper
@@ -86,14 +95,10 @@ export default class towerWorld extends Entity{
         d.start(scene);
         this.addChild(d);
 
-        o = new order(this, "order", "order");
-        o.start(this.order);
-        this.addChild(o);
-
         // Add the event listeners
         window.addEventListener( 'resize', this.onWindowResize, false );
-        // window.addEventListener( 'mousemove', this.onMouseMove, false );
         window.addEventListener( 'keydown', this.onKeyDown, false );
+
 
         // Start the game loop
         this.update();
@@ -102,6 +107,9 @@ export default class towerWorld extends Entity{
     }
 
     update(){
+        if(this.pause){
+            return;
+        }
         this.map.update();
         t.update(scene);
         d.update(scene);
@@ -116,16 +124,6 @@ export default class towerWorld extends Entity{
 
         controls.update();
     }
-
-    // onMouseMove(event){
-    //     // calculate mouse position in normalized device coordinates
-    //     // (-1 to +1) for both components
-    //     var mouse = new THREE.Vector2();
-    //     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    //     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-    //     t.followMouse(mouse.x, mouse.y);
-    // }
 
     onKeyDown(event){
         switch(event.key){
@@ -144,5 +142,27 @@ export default class towerWorld extends Entity{
             default:
                 break;
         }
+    }
+
+    pauseWorld(){
+        // Pause the game
+        var old = this.pause;
+        this.pause = !old;
+
+        // Change the button text
+        var button = document.getElementById("pauseButton");
+        if(old){
+            button.innerHTML = "Pause";
+            this.update();
+
+        }
+        else{
+            button.innerHTML = "Resume";
+        }
+    }
+
+    gameOver(){
+        // Pause the game
+        this.pause = true;
     }
 }

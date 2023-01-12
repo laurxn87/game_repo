@@ -9,32 +9,61 @@ export default class order extends Entity {
 
     setItem(slot, itemName){
         const div = document.getElementsByClassName("order-ui")[0].getElementsByClassName("order-ui__list")[0].getElementsByClassName("order-ui__item")[slot];
-        // const img = document.createElement("img");
+        const img = document.createElement("img");
+        img.src = "../models/"+itemName+"Image.jpg";
+        img.style.width = "25%";
+        img.style.height = "25%";
 
-        // img.src = "../models/"+itemName+"Image.jpg";
-        // img.style.width = "100%";
-        // img.style.height = "100%";
-        // div.appendChild(img);
+        div.appendChild(img);
 
         this.orderlist[slot] = itemName;  
     }
 
-    start(list){
-        // this.orderlist = list;
-        // // add icons to the html 
-        // for(var i=0; i<this.orderlist.length;){
-        //     this.setItem(i, this.orderlist[i]);
-        // }
+    clearItem(slot){
+        const div = document.getElementsByClassName("order-ui")[0].getElementsByClassName("order-ui__list")[0].getElementsByClassName("order-ui__item")[slot];
+        div.removeChild(div.childNodes[0]);
+        this.orderlist[slot] = "empty";
     }
 
-    update(list){
-        for(var i=0; i<this.orderlist.length; i++){
-            if(this.orderlist[i] != list[i]){
-                this.setItem(i, list[i]);
-            }
-        }
-
+    start(list){
         this.orderlist = list;
+        // add icons to the html 
+        for(var i=0; i<this.orderlist.length;){
+
+            this.setItem(i, this.orderlist[i]);
+            i++;
+        }
+    }
+
+
+    clear(){
+        for(var i=0; i<this.orderlist.length;){
+            this.setItem(i, "empty");
+            i++;
+        }
+    }
+
+    next(){ // remove the first item in the orderlist and update the html
+        for(var i=0; i<this.orderlist.length-1;){
+            this.clearItem(i);
+            this.setItem(i, this.orderlist[i+1]);
+            i++;
+        }
+        this.orderlist.shift();
+    }
+
+    checkNext(itemName){
+        if(this.orderlist[0] == itemName){
+            return true;
+        }
+        return false;
+    }
+
+    empty(){
+        if(this.orderlist.length == 0){
+            return true;
+        }
+        return false;
     }
 
     destroy(){

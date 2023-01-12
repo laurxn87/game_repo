@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import filling from './filling.js';
 import Entity from './Entity.js';
 
+let timer;
 export default class dropper extends Entity{
 
     constructor(parent, name, id){
@@ -14,23 +15,36 @@ export default class dropper extends Entity{
         this.interval = -1;
         this.counter = 0;
         this.testFilling = null;
+        this.timeLeft;
+
+    }
+
+    formatTimeLeft(timeLeft){
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        if(seconds < 10){
+            seconds = "0" + seconds;
+        }
+        return minutes + ":" + seconds;
     }
 
     start(scene){
         this.clock.start();
         this.interval = 0;
         this.fillings = ["topBun", "patty", "cheese", "lettuce", "tomato", "onion"];
-
-        // this.testFilling = new filling(this, "topBun", 0);
-        // this.testFilling.start(scene);
-        // this.dropper.push(this.testFilling);
-        // this.counter++;
-
+        this.timeLeft = 90;
+        const timer = document.getElementById("timer"); 
+        timer.innerHTML = "Time Left: " + this.formatTimeLeft(this.timeLeft);
     }
 
-    update(scene){
-        const totalSecs = Math.round(this.clock.getElapsedTime());
 
+    update(scene){
+
+        this.timeLeft = 90 - Math.round(this.clock.getElapsedTime());
+        const timer = document.getElementById("timer");
+        timer.innerHTML = "Time Left: " + this.formatTimeLeft(this.timeLeft);
+
+        const totalSecs = Math.round(this.clock.getElapsedTime());
         if(totalSecs % 2 == 0 && totalSecs != this.interval){
             this.interval = totalSecs;
             var rand = Math.floor(Math.random() * this.fillings.length);

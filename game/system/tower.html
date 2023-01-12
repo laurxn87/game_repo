@@ -2,7 +2,7 @@
 
 <html>
 
-<button id = "button1"><a href = "./main.html">Exit</a></button>
+<!-- <button id = "button1"><a href = "./main.html">Exit</a></button> -->
 
 <head>
     <title>Example - Resize Scene</title>
@@ -18,28 +18,106 @@
         }
     }
     </script>
+    <style type = "text/css">
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        #gl-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        #button2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        #pauseButton {
+            position: absolute;
+            top: 0;
+            left: 40px;
+            z-index: 1;
+        }
+        .container {
+            position: absolute;
+            z-index:1;
+            top:15px;
+            left:0px;
+        }
+        .ui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        .order-ui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        .order-ui__title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+            
+        }
+        .order-ui__list {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        .order-ui__item {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: rgb(255, 255, 255);
+        }
+        .timer {
+            position: absolute;
+            z-index:1;
+            top:0px;
+            right:0;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+        }
+    </style>
 </head>
 
 <body>
    <canvas id="gl-canvas" width="1024" height="1024"></canvas>
    <script type="module" charset="UTF-8" src="towerGame.js"></script>
-    <div class="container" id="container">
+   <button id = "button2" onclick="window.location.href='./main.html';">Exit</button>
+   <button id = "pauseButton">Pause</button>
+   <div class="container" id="container">
         <div class="ui">
             <div class="order-ui">
                 <div class="order-ui__title">Order</div>
                 <div class="order-ui__list">
-                    <div class="order-ui__item" id="order-1">1</div>
-                    <div class="order-ui__item" id="order-2">2</div>
-                    <div class="order-ui__item" id="order-3">3</div>
-                    <div class="order-ui__item" id="order-4">4</div>
-                    <div class="order-ui__item" id="order-5">5</div>
-                    <div class="order-ui__item" id="order-6">6</div>
-                    <div class="order-ui__item" id="order-7">7</div>
-                    <div class="order-ui__item" id="order-8">8</div>
+                    <div class="order-ui__item" id="order-1"></div>
+                    <div class="order-ui__item" id="order-2"></div>
+                    <div class="order-ui__item" id="order-3"></div>
+                    <div class="order-ui__item" id="order-4"></div>
+                    <div class="order-ui__item" id="order-5"></div>
+                    <div class="order-ui__item" id="order-6"></div>
+                    <div class="order-ui__item" id="order-7"></div>
+                    <div class="order-ui__item" id="order-8"></div> 
                 </div>
             </div>
         </div>
    </div>
+   <div class="timer" id="timer"></div>
 </body>
 
 </html>

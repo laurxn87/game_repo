@@ -16,6 +16,7 @@ extends Entity{
         super(0,0,0,0,0,0,1,1,1,{},null,"drivingworld");
         this.map = null;
         this.fooditems = [];
+        this.pause = false;
     }
 
     start(){
@@ -173,4 +174,10 @@ extends Entity{
         }
     }
 
+    pauseWorld(){
+        this.pause = !this.pause;
+
+        if (this.pause){
+            
+    }
 }
