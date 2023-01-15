@@ -13,7 +13,7 @@ let d; // dropper
 let o; // order
 
 export default class towerWorld extends Entity{
-    constructor(){
+    constructor(parent, name, id){
         super(0,0,0,0,0,0,1,1,1,{},null,"towerworld");
 
         this.map = null;
@@ -23,6 +23,7 @@ export default class towerWorld extends Entity{
         this.order = [];
 
         this.pause = false;
+        this.parent = parent;
     }
 
 
@@ -109,12 +110,19 @@ export default class towerWorld extends Entity{
     update(){
         if(this.pause){
             return;
-        }
+        };
+
         this.map.update();
         t.update(scene);
-        d.update(scene);
-        renderer.render( scene, camera );
-        requestAnimationFrame(this.update.bind(this));
+        if(!this.pause && d!=null){
+            d.update(scene);
+
+        }
+        if(!this.pause){
+            renderer.render( scene, camera );
+            requestAnimationFrame(this.update.bind(this));
+        }
+
     }
 
     onWindowResize(){
@@ -161,8 +169,58 @@ export default class towerWorld extends Entity{
         }
     }
 
-    gameOver(){
-        // Pause the game
+    destroy(){
         this.pause = true;
+        // Remove the event listeners
+        window.removeEventListener( 'resize', this.onWindowResize, false );
+        window.removeEventListener( 'keydown', this.onKeyDown, false );
+
+        renderer.clear();
+        
+
+        // Remove the camera
+        camera = null;
+
+        // Remove the renderer
+        renderer = null;
+
+        // Remove the canvas
+        canvas = null;
+
+        // Remove the controls
+        controls = null;
+
+        // Remove the map camera
+        mapCam = null;
+
+
+        // Remove the children
+        this.removeChild(this.map);
+        this.removeChild(t);
+        this.removeChild(d);
+        this.removeChild(o);
+
+        // Remove the map
+        this.map.destroy(scene);
+        this.map = null;
+
+        // Remove the tower
+        t.destroy(scene);
+        t = null;
+
+        // Remove the dropper
+        d.destroy(scene);
+        d = null;
+
+        // Remove the order
+        o.destroy();
+        o = null;
+
+        // Remove the scene
+        scene = null;
+
+        // Remove the parent
+        this.parent = null;
+
     }
 }

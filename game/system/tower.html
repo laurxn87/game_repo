@@ -92,6 +92,41 @@
             margin-bottom: 0.5rem;
             color: rgb(255, 255, 255);
         }
+        .screen {
+            position: absolute;
+            z-index:1;
+            top:0px;
+            right:0;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+            display: none;
+        }
+        .screen__title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+        }
+        .screen__message {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+        }
+        .screen__button {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+        }
+        .screen__score{
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+        }
     </style>
 </head>
 
@@ -103,8 +138,9 @@
    <div class="container" id="container">
         <div class="ui">
             <div class="order-ui">
-                <div class="order-ui__title">Order</div>
+                <div class="order-ui__title" id="order-title">Order</div>
                 <div class="order-ui__list">
+                    <div class="order-ui__item" id="order-0"></div>
                     <div class="order-ui__item" id="order-1"></div>
                     <div class="order-ui__item" id="order-2"></div>
                     <div class="order-ui__item" id="order-3"></div>
@@ -112,12 +148,19 @@
                     <div class="order-ui__item" id="order-5"></div>
                     <div class="order-ui__item" id="order-6"></div>
                     <div class="order-ui__item" id="order-7"></div>
-                    <div class="order-ui__item" id="order-8"></div> 
                 </div>
             </div>
         </div>
    </div>
    <div class="timer" id="timer"></div>
+   <div class="screen" id="gameover-screen">
+        <div class="screen__title" id="gameover-title"></div>
+        <div class="screen__message" id="gameover-message"></div>
+        <div class="screen__score" id="gameover-score"></div>
+        <button class="screen__button" id="restart-button">Restart</button>
+        <button class="screen__button" id="quit-button" onclick="window.location.href='./main.html';">Quit</button>
+    </div>
+</div> 
 </body>
 
 </html>

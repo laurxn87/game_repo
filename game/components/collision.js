@@ -13,8 +13,6 @@ export default class collision extends Component {
     start(scene) {
         this.parent.setCollisionBox(this.collisionMesh);
         this.collisionMesh = this.parent.getCollisionBox();
-        // add the collision mesh to the scene
-        // scene.add(this.collisionMesh);
     }
     
     updateTruck() { 
@@ -88,8 +86,7 @@ export default class collision extends Component {
     }
 
     destroy(scene) {
-        // remove this component's collision mesh from the scene
-        scene.remove(this.collisionMesh);
+
         this.collisionMesh = null;
         this.parent = null;
         this.collidingWith = null;
@@ -123,7 +120,6 @@ export default class collision extends Component {
         scene.remove(this.collisionMesh);
         this.collisionMesh = mesh;
         this.parent.setCollisionBox(this.collisionMesh);
-        scene.add(this.collisionMesh);
 
     }
 

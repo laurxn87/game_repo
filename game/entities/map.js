@@ -20,5 +20,12 @@ export default class map extends Entity{
     //     return this;
     // }
     
+    destroy(scene){
+        this.components["mapModel"].destroy(scene);
+        this.components = {};
+        this.parent = null;
+        
+
+    }
 
 }

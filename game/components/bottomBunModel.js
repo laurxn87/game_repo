@@ -34,7 +34,8 @@ export default class bottomBunModel extends Component{
 
     }
 
-    destroy(){
+    destroy(scene){
+        scene.remove(model);
         model = null;
         this.parent = null;
     }

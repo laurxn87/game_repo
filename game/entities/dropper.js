@@ -33,19 +33,24 @@ export default class dropper extends Entity{
         this.interval = 0;
         this.fillings = ["topBun", "patty", "cheese", "lettuce", "tomato", "onion"];
         this.timeLeft = 90;
-        const timer = document.getElementById("timer"); 
+        const timer = document.getElementById("timer");
+        timer.style.display = "block"; 
         timer.innerHTML = "Time Left: " + this.formatTimeLeft(this.timeLeft);
     }
 
 
     update(scene){
-
         this.timeLeft = 90 - Math.round(this.clock.getElapsedTime());
+        if(this.timeLeft < 0){
+            this.parent.parent.gameOver("You Lose! Better luck next time","You ran out of time!"
+            ,this.parent.getChildren("order").getScore());
+        }
+
         const timer = document.getElementById("timer");
         timer.innerHTML = "Time Left: " + this.formatTimeLeft(this.timeLeft);
 
         const totalSecs = Math.round(this.clock.getElapsedTime());
-        if(totalSecs % 2 == 0 && totalSecs != this.interval){
+        if(totalSecs % 1 == 0 && totalSecs != this.interval){
             this.interval = totalSecs;
             var rand = Math.floor(Math.random() * this.fillings.length);
             var fi = new filling(this, this.fillings[rand], this.counter);
@@ -55,9 +60,11 @@ export default class dropper extends Entity{
         }
 
 
-
         for(var i = 0; i < this.dropper.length; i++){
-            this.dropper[i].update(scene)
+            this.dropper[i].update(scene);
+            if(this.dropper.length == 0){
+                return ;
+            }
             if(this.dropper[i].position.y < -1){
                 this.dropper[i].destroy(scene);
                 this.dropper.splice(i, 1);
@@ -69,6 +76,9 @@ export default class dropper extends Entity{
         for(var i = 0; i < this.dropper.length; i++){
             this.dropper[i].destroy(scene);
         }
+        // remove the timer
+        const timer = document.getElementById("timer");
+        timer.style.display = "none";
 
         this.dropper = [];
     }

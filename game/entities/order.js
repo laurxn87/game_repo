@@ -5,9 +5,16 @@ export default class order extends Entity {
     constructor(parent, name, id){
         super(0,0,0,0,0,0,1,1,1,{},parent,name);
         this.orderlist = [];
+        this.orderLength;
+        this.score;
     }
 
     setItem(slot, itemName){
+        console.log("setting item ", itemName," in ", slot);
+        if(this.orderlist[slot] != "empty"){
+            // this.clearItem(slot);
+        }
+    
         const div = document.getElementsByClassName("order-ui")[0].getElementsByClassName("order-ui__list")[0].getElementsByClassName("order-ui__item")[slot];
         const img = document.createElement("img");
         img.src = "../models/"+itemName+"Image.jpg";
@@ -21,12 +28,14 @@ export default class order extends Entity {
 
     clearItem(slot){
         const div = document.getElementsByClassName("order-ui")[0].getElementsByClassName("order-ui__list")[0].getElementsByClassName("order-ui__item")[slot];
-        div.removeChild(div.childNodes[0]);
-        this.orderlist[slot] = "empty";
+        div.innerHTML = "";
+
     }
 
     start(list){
         this.orderlist = list;
+        this.score = 0;
+        this.orderLength = list.length;
         // add icons to the html 
         for(var i=0; i<this.orderlist.length;){
 
@@ -37,19 +46,23 @@ export default class order extends Entity {
 
 
     clear(){
-        for(var i=0; i<this.orderlist.length;){
-            this.setItem(i, "empty");
+        for(var i=0; i<this.orderlist.length+1;){
+            this.clearItem(i);
             i++;
         }
     }
 
     next(){ // remove the first item in the orderlist and update the html
-        for(var i=0; i<this.orderlist.length-1;){
+
+        this.score++;  
+        console.log(this.orderlist);
+        this.orderlist = this.orderlist.slice(1);
+        for(var i=0; i<this.orderlist.length;){
             this.clearItem(i);
-            this.setItem(i, this.orderlist[i+1]);
+            this.setItem(i, this.orderlist[i]);
             i++;
         }
-        this.orderlist.shift();
+        this.clearItem(this.orderLength - this.score - 1);
     }
 
     checkNext(itemName){
@@ -67,11 +80,11 @@ export default class order extends Entity {
     }
 
     destroy(){
-        // remove icons from html
-        for(var i=0; i<this.orderlist.length; i++){
-            const div = document.getElementById("order-"+i);
-            div.removeChild(div.childNodes[0]);
-        }
+        this.clear();
+    }
+
+    getScore(){
+        return Math.floor((this.score/this.orderLength)*100);  
     }
 
 }

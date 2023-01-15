@@ -15,6 +15,7 @@ Fixes
 - Order bar - make look pretty
 - Extra lights + check the specification
 - Follow cam
+- Fix the destroy methods especially for the gameover screen
 
 Models and maps 
 Driving Game

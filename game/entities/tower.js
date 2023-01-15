@@ -13,6 +13,7 @@ export default class tower extends Entity{
         this.tower = [];
         this.order = null; //order object
         this.addComponent(new collision(this, "collision", "collision"));
+        this.game_over = false;
     }
 
     start(scene, order){
@@ -32,7 +33,6 @@ export default class tower extends Entity{
     update(scene){
         this.getComponent("collision").updateTruck();
         this.getComponent("bottomBunModel").update();
-
     }
 
     addFillingToTower(scene, foodItem){
@@ -44,19 +44,26 @@ export default class tower extends Entity{
         this.position.y = this.height + 2.01;  
         // check if the tower is corrrect
         if(this.order.checkNext(foodItem.name)){
-            console.log("Correct");
             this.order.next();
+
             if(this.order.empty()){
-                console.log("Order complete");
+                this.parent.parent.gameOver("You win!", "You completed the order",100);
+                this.game_over = true;  
+                return ;
             }
         }else{
-            // 
-            console.log("Game over");
+            var finalScore = this.order.getScore();          
+            this.parent.parent.gameOver("You lose!", "You did not complete the order",finalScore); 
+            this.game_over = true;       
+            return ;
         }
-        // update the collision component
-        this.components["collision"].changeCollisionBox(scene, foodItem.getCollisionBox());
-        console.log(this.getCollisionBox().position.y);
-        this.tower.push(foodItem);
+
+        // update the collision component if the game is not over
+        if(!this.game_over){
+            this.components["collision"].changeCollisionBox(scene, foodItem.getCollisionBox());
+            this.tower.push(foodItem);
+        }
+
     }
 
 
@@ -79,8 +86,8 @@ export default class tower extends Entity{
         }
     }
 
-    destroy(){
-        this.components["bottomBunModel"].destroy();
+    destroy(scene){
+        this.components["bottomBunModel"].destroy(scene);
         this.components["collision"].destroy();
     }
 }
