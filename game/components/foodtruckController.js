@@ -6,13 +6,13 @@ export default class foodtruckController extends Component{
         super(parentEntity,name, id);
         this.model = null;
         this.speed = 0;
-        this.maxSpeed = 0.3;
-        this.acceleration = 0.0015;
-        this.deceleration = 0.0015;
+        this.maxSpeed = 0.4;
+        this.acceleration = 0.002;
+        this.deceleration = 0.003;
         this.turnSpeed = 0.01;
         this.maxTurnSpeed = 0.1;
-        this.turnAcceleration = 0.0005;
-        this.turnDeceleration = 0.0005;
+        this.turnAcceleration = 0.0015;
+        this.turnDeceleration = 0.003;
         this.turning = false;
         this.turningLeft = false;
         this.turningRight = false;
@@ -20,11 +20,11 @@ export default class foodtruckController extends Component{
         this.decelerating = false;
         this.stopping = false;
         this.stopped = false;
+        this.turnRadius = 0.5;
     }
 
 
     start(){
-
         this.model = this.parent.components["foodtruckModel"];
         this.model.position = new THREE.Vector3(0,1.2,0);
     }
@@ -43,6 +43,9 @@ export default class foodtruckController extends Component{
             }
             else if(this.decelerating){
                 this.speed -= this.deceleration;
+                if(this.speed < -this.maxSpeed){
+                    this.speed = -this.maxSpeed;
+                }
             }
             else if(this.stopping){
                 if(this.speed > 0.01){
@@ -58,40 +61,46 @@ export default class foodtruckController extends Component{
 
             }
             else{
-                if(this.speed > 0){
-                    this.speed -= this.deceleration;
+                // if the truck is not accelerating, decelerating, or stopping, it should be at a constant speed
+                if(this.speed > this.maxSpeed){
+                    this.speed = this.maxSpeed;
                 }
-                else if(this.speed < 0){
-                    this.speed += this.deceleration;
+                else if(this.speed < -this.maxSpeed){
+                    this.speed = -this.maxSpeed;
                 }
             }
 
             if(this.turningLeft){
                 this.turnSpeed += this.turnAcceleration;
-                if(this.turnSpeed > this.maxTurnSpeed){
-                    this.turnSpeed = this.maxTurnSpeed;
-                    // update the rotation of the truck
-                }
-            }
-            else if(this.turningRight){
-                this.turnSpeed -= this.turnAcceleration;
                 if(this.turnSpeed < -this.maxTurnSpeed){
                     this.turnSpeed = -this.maxTurnSpeed;
                 }
             }
-            else{
-                if(this.turnSpeed > 0){
-                    this.turnSpeed -= this.turnDeceleration;
+            else if(this.turningRight){
+                this.turnSpeed -= this.turnAcceleration;
+                if(this.turnSpeed > this.maxTurnSpeed){
+                    this.turnSpeed = this.maxTurnSpeed;
                 }
-                else if(this.turnSpeed < 0){
-                    this.turnSpeed += this.turnDeceleration;
+            }
+            else{
+                if(this.turnSpeed > 0.01){
+                    // use a quadratic function to slow down the truck
+                    this.turnSpeed -= 3* this.turnSpeed * this.turnSpeed;
+                }
+                else if(this.turnSpeed < -0.01){
+                    // use a quadratic function to slow down the truck
+                    this.turnSpeed += 3*this.turnSpeed * this.turnSpeed;
+                }else{
+                    this.turnSpeed = 0;
                 }
             }
         }
 
-        this.model.position.x += this.speed * Math.sin(this.model.rotation.y);
+        // use suvat equations to update the position of the truck
         this.model.position.z += this.speed * Math.cos(this.model.rotation.y);
+        this.model.position.x += this.speed * Math.sin(this.model.rotation.y);
         this.model.rotation.y += this.turnSpeed;
+
     }
 
     forward(){

@@ -12,14 +12,33 @@ let mapCam;
 let ft;
 export default class drivingWorld 
 extends Entity{
-    constructor(){
-        super(0,0,0,0,0,0,1,1,1,{},null,"drivingworld");
+    constructor(parent, name, id){
+        super(0,0,0,0,0,0,1,1,1,{},parent,name);
         this.map = null;
         this.fooditems = [];
         this.pause = false;
+        this.clock = new THREE.Clock();
+        this.timeLeft;
+        this.prevTime;
+        this.parent =  parent;
+    }
+
+    formatTimeLeft(timeLeft){
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        if(seconds < 10){
+            seconds = "0" + seconds;
+        }
+        return minutes + ":" + seconds;
     }
 
     start(){
+        this.clock.start();
+        this.timeLeft = 1;
+        this.prevTime = this.timeLeft;
+        const timer = document.getElementById("timer");
+        timer.style.display = "block";
+        timer.innerHTML = "Time Left: " + this.formatTimeLeft(this.timeLeft);
     // Get the canvas
         const canvas = document.getElementById("gl-canvas");
 
@@ -82,15 +101,28 @@ extends Entity{
         this.update(scene);
     }
 
-    update(){   
-        ft.update();
-        this.map.update();
-        this.fooditems.forEach((fooditem) => {
-            fooditem.update();
-        });
+    update(){
+        if(this.pause){
+            return;
+        }
 
-        renderer.render(scene, camera);
-        requestAnimationFrame(this.update.bind(this));
+        this.timeLeft = this.prevTime - Math.floor(this.clock.getElapsedTime());
+        const timer = document.getElementById("timer");
+        timer.innerHTML = "Time Left: " + this.formatTimeLeft(this.timeLeft);
+        //   if the time runs out, end the game
+        if(this.timeLeft <= 0){
+            this.parent.gameOver();
+        }
+        if(!this.pause){
+            ft.update(scene);
+            this.map.update();
+            this.fooditems.forEach((fooditem) => {
+                fooditem.update();
+            });
+    
+            renderer.render(scene, camera);
+            requestAnimationFrame(this.update.bind(this));
+        }
     }
 
     getFoodtruck(){
@@ -123,6 +155,27 @@ extends Entity{
 
     
     }
+
+    pauseWorld(s){
+        // Pause the game
+        var old = this.pause;
+        this.pause = !old;
+
+        // Change the button text
+        var button = document.getElementById("pauseButton");
+        if(old){
+            this.timeLeft = this.prevTime;
+            button.innerHTML = "Pause";
+            this.clock.start();
+            this.update();
+
+        }
+        else{
+            button.innerHTML = "Resume";
+            this.prevTime = this.timeLeft;
+        }
+    }
+
 
     controlFoodtruck(event){
         // change to lowercase if needed    
@@ -174,11 +227,38 @@ extends Entity{
         }
     }
 
-    pauseWorld(){
-        this.pause = !this.pause;
+    destroy(){
+        this.pause = true;
+        // remove event listeners
+        window.removeEventListener( 'resize', this.onWindowResize, false );
+        window.removeEventListener( 'keydown', this.onKeyDown, false );
+        window.removeEventListener( 'keyup', this.onKeyDown, false );
+        renderer.clear();
+        camera = null;
+        renderer =null;
+        canvas = null;
+        controls = null;
+        mapCam = null;
 
-        if (this.pause){
-            
+        this.removeChild(ft);
+        this.removeChild(this.map);
+
+        this.map.destroy(scene);
+        this.map = null;
+
+        ft.destroy(scene);
+        ft = null;
+
+        scene = null;
+        this.parent = null;
+        console.log("destroyed");
+
+        // remove the timer
+        const timer = document.getElementById("timer");
+        timer.style.display = "none";
+
+
     }
-}
+
+
 }

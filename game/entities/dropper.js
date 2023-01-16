@@ -16,6 +16,8 @@ export default class dropper extends Entity{
         this.counter = 0;
         this.testFilling = null;
         this.timeLeft;
+        this.prevTime;
+        this.pause = false;
 
     }
 
@@ -31,6 +33,7 @@ export default class dropper extends Entity{
     start(scene){
         this.clock.start();
         this.interval = 0;
+        this.prevTime = 90;
         this.fillings = ["topBun", "patty", "cheese", "lettuce", "tomato", "onion"];
         this.timeLeft = 90;
         const timer = document.getElementById("timer");
@@ -40,7 +43,7 @@ export default class dropper extends Entity{
 
 
     update(scene){
-        this.timeLeft = 90 - Math.round(this.clock.getElapsedTime());
+        this.timeLeft = this.prevTime - Math.round(this.clock.getElapsedTime());
         if(this.timeLeft < 0){
             this.parent.parent.gameOver("You Lose! Better luck next time","You ran out of time!"
             ,this.parent.getChildren("order").getScore());
@@ -70,6 +73,16 @@ export default class dropper extends Entity{
                 this.dropper.splice(i, 1);
             }
         }
+    }
+
+    pauseTimer(){
+        this.pause = true;
+        this.prevTime = this.timeLeft;
+    }
+
+    resumeTimer(){
+        this.pause = false;
+        this.clock.start();
     }
 
     destroy(scene){

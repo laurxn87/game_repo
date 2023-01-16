@@ -1,33 +1,55 @@
 import drivingWorld from '../entities/drivingWorld.js';
 
-export default class drivingGame {
+let world;
+export default class 
+drivingGame {
     constructor(){
-        this.world = null;
+        world = null;
     }   
 
     start(){
 
-        this.world = new drivingWorld();
-        this.world.start();
+        world = new drivingWorld(this, "drivingWorld", "drivingWorld");
+        world.start();
         const pauseButton = document.getElementById("pauseButton");
         pauseButton.addEventListener("click", this.pauseGame);
     }
 
     pauseGame(){
-        // Pause the game
-        var old = this.pause;
-        this.pause = !old;
+        world.pauseWorld();
+    }
 
-        // Change the button text
-        var button = document.getElementById("pauseButton");
-        if(old){
-            button.innerHTML = "Pause";
-            this.update();
+    gameOver(titleString, messageString, scoreString){
+        console.log("Game Over");
+        world.destroy();
 
-        }
-        else{
-            button.innerHTML = "Resume";
-        }
+        // remove the old html 
+        var pauseButton = document.getElementById("pauseButton");
+        pauseButton.style.display = "none";
+        var exit = document.getElementById("button2");
+        exit.style.display = "none";
+
+        console.log(document.getElementsByClassName("order-ui")[0]);
+
+        console.log(document.getElementsByClassName("order-ui"));
+
+        var orderTitle = document.getElementsByClassName("order-ui")[0].getElementsByClassName("order-ui__title")[0];
+        orderTitle.style.display = "none";
+        
+
+
+        var gameOver = document.getElementById("gameover-screen");
+        gameOver.style.display = "block";
+        var title = document.getElementsByClassName("screen__title")[0];
+        title.innerHTML = titleString;
+        var message = document.getElementsByClassName("screen__message")[0];
+        message.innerHTML = messageString;
+        var score = document.getElementsByClassName("screen__score")[0];
+        score.innerHTML = "Score: " + scoreString;
+
+        var button = document.getElementById    ("restart-button");
+        button.addEventListener("click", this.restartGame, false);
+
     }
 }
 

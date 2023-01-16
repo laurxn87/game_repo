@@ -7,15 +7,14 @@ TODO:
 Get a meeting with Shan or rosella to see if it is good enough 
 
 Fixes
-- check the timer doesnt go over 
-- finish the game over screen 
-- Timer for driving game
 - Fix driving controls 
 - Fix collision + health bar, inventory
+- make car slower when it has been damaged -  maxSpeed * ( (maxDamage - damageLevel) / maxDamage
 - Order bar - make look pretty
 - Extra lights + check the specification
 - Follow cam
-- Fix the destroy methods especially for the gameover screen
+- info buttons are hovver buttons
+- driving game over screen 
 
 Models and maps 
 Driving Game

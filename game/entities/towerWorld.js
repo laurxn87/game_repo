@@ -160,11 +160,13 @@ export default class towerWorld extends Entity{
         // Change the button text
         var button = document.getElementById("pauseButton");
         if(old){
+            d.resumeTimer();
             button.innerHTML = "Pause";
             this.update();
 
         }
         else{
+            d.pauseTimer();
             button.innerHTML = "Resume";
         }
     }
