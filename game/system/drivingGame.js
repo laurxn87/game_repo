@@ -29,15 +29,6 @@ drivingGame {
         var exit = document.getElementById("button2");
         exit.style.display = "none";
 
-        console.log(document.getElementsByClassName("order-ui")[0]);
-
-        console.log(document.getElementsByClassName("order-ui"));
-
-        var orderTitle = document.getElementsByClassName("order-ui")[0].getElementsByClassName("order-ui__title")[0];
-        orderTitle.style.display = "none";
-        
-
-
         var gameOver = document.getElementById("gameover-screen");
         gameOver.style.display = "block";
         var title = document.getElementsByClassName("screen__title")[0];
@@ -51,6 +42,20 @@ drivingGame {
         button.addEventListener("click", this.restartGame, false);
 
     }
+
+    restartGame(){
+        var gameOver = document.getElementById("gameover-screen");
+        gameOver.style.display = "none";
+        // put the html back 
+        var pauseButton = document.getElementById("pauseButton");
+        pauseButton.style.display = "block";
+        var exit = document.getElementById("button2");
+        exit.style.display = "block";
+        game = new drivingGame();
+        game.start();
+    }
+
+
 }
 
 var game = new drivingGame();

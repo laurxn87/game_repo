@@ -3,6 +3,7 @@ import foodtruckModel from '../components/foodtruckModel.js'
 import foodtruckController from '../components/foodtruckController.js'
 import followCamera from '../components/followCamera.js'
 import collision from '../components/collision.js'
+import {OBB} from 'OBB'
 
 export default class foodtruck extends Entity{
     constructor(parent, name, id){
@@ -14,12 +15,14 @@ export default class foodtruck extends Entity{
         this.addComponent(new collision(this, "collision", "collision"));
         this.inventory = 0;
         this.isDestroyed = false;
+        this.collisionBox;
 
     }
 
     start(scene){
         this.components["foodtruckModel"].start(scene);
         this.components["foodtruckController"].start();
+        // increment the angle by the turnspeed or something 
         // this.components["followCamera"].start(scene);
         this.components["collision"].start(scene);
 
@@ -28,7 +31,8 @@ export default class foodtruck extends Entity{
     update(scene){
         if(this.isDestroyed){
             return;
-        }
+        }        var orderTitle = document.getElementsByClassName("order-ui")[0].getElementsByClassName("order-ui__title")[0];
+        orderTitle.style.display = "block";
         this.components["foodtruckController"].update();
         this.components["foodtruckModel"].update(scene);
         // this.components["followCamera"].update();
@@ -53,6 +57,13 @@ export default class foodtruck extends Entity{
         // return this.components["followCamera"].camera;
     }
 
+    getCollisionBox(){
+        // using obb collision box 
+        var colBox = new OBB(this.position, 
+
+
+
+    }
     
     
 

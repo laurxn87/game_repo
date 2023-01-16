@@ -34,7 +34,7 @@ extends Entity{
 
     start(){
         this.clock.start();
-        this.timeLeft = 1;
+        this.timeLeft = 90;
         this.prevTime = this.timeLeft;
         const timer = document.getElementById("timer");
         timer.style.display = "block";
