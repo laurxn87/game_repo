@@ -26,7 +26,7 @@ export default class foodtruckController extends Component{
 
     start(){
         this.model = this.parent.components["foodtruckModel"];
-        this.model.position = new THREE.Vector3(0,1.2,0);
+        this.model.position = new THREE.Vector3(0,0,0);
     }
 
     update(){   

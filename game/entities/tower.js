@@ -31,7 +31,7 @@ export default class tower extends Entity{
 
 
     update(scene){
-        this.getComponent("collision").updateTruck();
+        this.getComponent("collision").updateFilling();
         this.getComponent("bottomBunModel").update();
     }
 

@@ -119,7 +119,6 @@ extends Entity{
             this.fooditems.forEach((fooditem) => {
                 fooditem.update();
             });
-    
             renderer.render(scene, camera);
             requestAnimationFrame(this.update.bind(this));
         }
@@ -201,6 +200,8 @@ extends Entity{
                     camera = mapCam;
                 } else {
                     camera = ft.getCamera();
+                    console.log(camera);
+
                 }
                 break;
             default:

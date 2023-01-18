@@ -15,12 +15,11 @@ export default class collision extends Component {
         this.collisionMesh = this.parent.getCollisionBox();
     }
     
-    updateTruck() { 
+    updateFilling() { 
         if(this.collisionMesh == null){
             return null;
         }
         this.position = this.parent.position;
-        this.rotation = this.parent.rotation;
         this.scale = this.parent.scale;
         this.collisionMesh.position.set(this.position.x, this.position.y, this.position.z);
 
@@ -50,7 +49,7 @@ export default class collision extends Component {
 
     }
 
-    updateFilling(){
+    updateTruck(){
         if(this.collisionMesh == null){
             return null;
         }
@@ -58,12 +57,13 @@ export default class collision extends Component {
         this.rotation = this.parent.rotation;
         this.scale = this.parent.scale;
         this.collisionMesh.position.set(this.position.x, this.position.y, this.position.z);
+        this.collisionMesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
 
         this.collisionMesh.geometry.computeBoundingBox();
         this.collisionMesh.geometry.boundingBox.translate(this.position);
 
-        for (let i = 0; i < this.parent.getParent().getParent().children.length; i++) {
-            let child = this.parent.getParent().getParent().children[i];
+        for (let i = 0; i < this.parent.getParent().children.length; i++) {
+            let child = this.parent.getParent().children[i];
             if (child.getCollisionBox() != null) {
                 if(child.getName() != this.parent.getName()){
                     // compute the bounding box of the child
@@ -86,13 +86,9 @@ export default class collision extends Component {
     }
 
     destroy(scene) {
-
         this.collisionMesh = null;
         this.parent = null;
         this.collidingWith = null;
-
-
-
     }
 
     hasCollided() {
@@ -117,9 +113,10 @@ export default class collision extends Component {
 
 
     changeCollisionBox(scene, mesh) {
-        scene.remove(this.collisionMesh);
+        // scene.remove(this.collisionMesh);
         this.collisionMesh = mesh;
         this.parent.setCollisionBox(this.collisionMesh);
+
 
     }
 
