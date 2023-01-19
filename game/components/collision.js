@@ -89,6 +89,7 @@ export default class collision extends Component {
         this.collisionMesh = null;
         this.parent = null;
         this.collidingWith = null;
+        
     }
 
     hasCollided() {

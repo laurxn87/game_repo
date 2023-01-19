@@ -22,7 +22,6 @@ export default class followCamera extends Component{
 
         // add the camera to the scene
         scene.add(this.camera);
-        console.log("camera added");
 
     }
 
@@ -43,9 +42,15 @@ export default class followCamera extends Component{
         if(this.prevRotation != this.target.rotation.y){
             this.camera.rotateY(this.target.rotation.y - this.prevRotation);
 
-            this.prevRotation = this.target.rotation.y;
+            this.prevRotation = this.
+            target.rotation.y;
         }
     }
+
+    reverseCamera(){
+        this.camera.rotateY(Math.PI);
+    }
+
 
     setTarget(target){
         this.target = target;

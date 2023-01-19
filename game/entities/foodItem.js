@@ -27,9 +27,10 @@ export default class foodItem extends Entity{
         }
     }
 
-    destroy(){
-        this.components["foodItemModel"].destroy();
+    destroy(scene){
+        this.components["foodItemModel"].destroy(scene);
         this.components["collision"].destroy();
+        this.parent.removeChild(this);
     }
 
     getEntity(){

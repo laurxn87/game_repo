@@ -43,6 +43,8 @@ export default class foodItemModel extends Component {
     destroy(scene) {
         scene.remove(model);
         model = null;
+        // remove entity from the parents children
+
         this.parent = null;
     }
 

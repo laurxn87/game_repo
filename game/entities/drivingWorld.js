@@ -82,10 +82,10 @@ extends Entity{
         this.addChild(ft);
 
         // Create the food item
-        // var fooditem = new foodItem(this, "foodItem", "foodItem");
-        // fooditem.start(scene);
-        // this.addChild(fooditem);
-        // this.fooditems.push(fooditem);
+        var fooditem = new foodItem(this, "foodItem", "foodItem");
+        fooditem.start(scene);
+        this.addChild(fooditem);
+        this.fooditems.push(fooditem);
 
 
 
@@ -200,8 +200,12 @@ extends Entity{
                     camera = mapCam;
                 } else {
                     camera = ft.getCamera();
-                    console.log(camera);
 
+                }
+                break;
+            case 'r':
+                if(camera == ft.getCamera()){
+                    ft.getComponent("followCamera").reverseCam();
                 }
                 break;
             default:
@@ -252,7 +256,6 @@ extends Entity{
 
         scene = null;
         this.parent = null;
-        console.log("destroyed");
 
         // remove the timer
         const timer = document.getElementById("timer");

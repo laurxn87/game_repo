@@ -38,9 +38,15 @@ export default class foodtruck extends Entity{
         this.components["followCamera"].update();
         this.components["collision"].updateTruck();
         if(this.components["collision"].hasCollided()){
-            this.components["collision"].resetCollision()
+            console.log(this.parent.children);
+
+            this.getComponent("collision").getCollidingWith().destroy(scene);
+            this.components["collision"].resetCollision();
+
+
+
             this.inventory += 1;
-            console.log("Inventory: " + this.inventory);
+            // console.log("Inventory: " + this.inventory);
         }
         
     }

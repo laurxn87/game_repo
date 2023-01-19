@@ -20,7 +20,6 @@ drivingGame {
     }
 
     gameOver(titleString, messageString, scoreString){
-        console.log("Game Over");
         world.destroy();
 
         // remove the old html 
