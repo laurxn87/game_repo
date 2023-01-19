@@ -1,10 +1,11 @@
 import Entity from './Entity.js';
 import drivingMapModel from '../components/drivingMapModel.js';
+import buildingBlock from './buildingBlock.js';
 
 let mapPlan = {
-    "block1": {'Size':'2x4', 'Vertical':true, 'Position': {'x':190, 'z':-80}},  
-    "block2": {'Size':'2x4', 'Vertical':true, 'Position': {'x':130, 'z':-80}},
-    "block3": {'Size':'2x4', 'Vertical':true, 'Position': {'x':70, 'z':-80}},
+    "block1": {'Size':'2x4', 'Vertical':true, 'Position': {'x':-190, 'z':-80}},  
+    "block2": {'Size':'2x4', 'Vertical':true, 'Position': {'x':-130, 'z':-80}},
+    "block3": {'Size':'2x4', 'Vertical':true, 'Position': {'x':-70, 'z':-80}},
     "block4": {'Size':'2x3', 'Vertical':false, 'Position': {'x':0, 'z':-100}},
     "block5": {'Size':'2x3', 'Vertical':false, 'Position': {'x':80, 'z':-100}},
     "block6": {'Size':'2x4', 'Vertical':false, 'Position': {'x':170, 'z':-100}},
@@ -37,6 +38,14 @@ export default class map extends Entity{
 
     start(scene){
         this.components["drivingMapModel"].start(scene);
+        // make all the building blocks
+        for(let i = 1; i <= 23; i++){
+            var block = new buildingBlock(this, "block"+i, i, mapPlan["block"+i].Size,mapPlan["block"+i].Vertical, mapPlan["block"+i].Position.x, mapPlan["block"+i].Position.z);
+            this.addChild(block);
+            // console.log(block);
+            block.start(scene);
+        }
+
     }
 
     // update(){
@@ -54,5 +63,7 @@ export default class map extends Entity{
         
 
     }
+
+
 
 }
