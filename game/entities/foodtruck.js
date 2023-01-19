@@ -38,17 +38,21 @@ export default class foodtruck extends Entity{
         this.components["followCamera"].update();
         this.components["collision"].updateTruck();
         if(this.components["collision"].hasCollided()){
-            console.log(this.parent.children);
-
-            this.getComponent("collision").getCollidingWith().destroy(scene);
-            this.components["collision"].resetCollision();
-
-
-
-            this.inventory += 1;
-            // console.log("Inventory: " + this.inventory);
+            if(this.components["collision"].getCollidingWith().name == "buildingBlock2x3" || this.components["collision"].getCollidingWith().name == "buildingBlock2x4"){
+                this.getComponent("foodtruckModel").block();
+            }
+            else if(this.components["collision"].getCollidingWith().name == "foodItem"){
+                this.pickupFoodItem(this.getComponent("collision").getCollidingWith(),scene);
+            }
         }
         
+    }
+
+    pickupFoodItem(foodItem, scene){
+        // do all the html stuff in here
+        this.inventory+=1;
+        foodItem.destroy(scene);
+        this.getComponent("collision").resetCollision();
     }
 
     destroy(scene){
@@ -75,5 +79,6 @@ export default class foodtruck extends Entity{
         mesh.scale.set(1,1,1);
 
         this.getComponent("collision").changeCollisionBox(scene, mesh);
+
     }
 }

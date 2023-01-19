@@ -1,5 +1,5 @@
 import foodtruck from './foodtruck.js';
-import map from './map.js';
+import drivingMap from './drivingMap.js';
 import foodItem from './foodItem.js';
 import Entity from './Entity.js';
 import * as THREE from 'three';
@@ -72,7 +72,7 @@ extends Entity{
         controls = new OrbitControls(camera, renderer.domElement );
 
         // Create the map
-        this.map = new map(this,"map", "map");
+        this.map = new drivingMap(this,"drivingMap", "drivingMap");
         this.map.start(scene);
         this.addChild(this.map);
 

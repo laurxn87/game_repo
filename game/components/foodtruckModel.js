@@ -50,7 +50,13 @@ export default class foodtruckModel extends Component{
         this.parent = null;
     }
 
-
+    block(location,rotation, scene){
+        // put the model back to the location it was at before it was blocked
+        this.position.x = location.x;
+        this.position.z = location.z;
+        this.rotation.y = rotation.y;
+        this.update();
+    }
 
     getCollisionBox(scene){
         var box = new THREE.Box3().setFromObject(model);

@@ -27,9 +27,9 @@ export default class foodItemModel extends Component {
         var geometry = new THREE.SphereGeometry( 1, 32, 32 );
         var material = new THREE.MeshBasicMaterial( {color: 0x0000ff} );
         model = new THREE.Mesh( geometry, material );
-        model.position.set(0,1,10);
+        model.position.set(60,1,-40);
         scene.add(model);
-        this.position = new THREE.Vector3(0,1,10);
+        this.position = new THREE.Vector3(-10,1,-10);
         this.parent.position = this.position;
     }
 

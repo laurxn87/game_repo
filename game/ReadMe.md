@@ -12,6 +12,7 @@ Fixes
 - Order bar - make look pretty
 - Extra lights + check the specification
 - info buttons are hovver buttons 
+- reverse camera
 
 Models and maps 
 Driving Game
