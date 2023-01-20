@@ -23,7 +23,6 @@ export default class foodtruckModel extends Component{
             scene.add(model);
             this.getCollisionBox(scene);
 
-
         }, undefined, function ( error ) {
             console.error( error );
         }

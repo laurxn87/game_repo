@@ -23,6 +23,7 @@ export default class foodtruck extends Entity{
 
     start(scene){
         this.components["foodtruckModel"].start(scene);
+        console.log(this.components["foodtruckModel"].position);
         this.components["foodtruckController"].start();
         // increment the angle by the turnspeed or something 
         this.components["followCamera"].start(scene);
@@ -39,9 +40,7 @@ export default class foodtruck extends Entity{
         this.components["collision"].updateTruck();
         if(this.components["collision"].hasCollided()){
             if(this.components["collision"].getCollidingWith().name == "block"){
-                // console.log("hit building block");  
-                // this.getComponent("foodtruckController").block();
-                console.log("hit building block");
+                this.getComponent("foodtruckController").block();
                 this.components["collision"].getCollidingWith().getComponent("collision").resetCollision();
                 this.getComponent("collision").resetCollision();
             

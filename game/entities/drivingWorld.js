@@ -10,6 +10,9 @@ import { GLTFLoader} from 'GLTFLoader';
 let camera, controls, scene, renderer, canvas;
 let mapCam;
 let ft;
+let junctions = [
+    
+]
 
 export default class drivingWorld 
 extends Entity{
