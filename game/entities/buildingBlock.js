@@ -14,11 +14,11 @@ export default class buildingBlock extends Entity{
         this.posx = posx;
         this.posz = posz;
         
+        
     }
 
     start(scene){
         this.components["buildingBlockModel"].start(scene,this.size, this.vertical, this.posx, this.posz);
-        console.log(this.posx, this.posz);
         this.components["collision"].start(scene);
         }
 
@@ -26,7 +26,7 @@ export default class buildingBlock extends Entity{
         this.components["collision"].update();
 
         if(this.components["collision"].hasCollided()){
-
+            console.log("hit building block");
         }
     }
 

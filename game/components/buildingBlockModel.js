@@ -53,7 +53,6 @@ export default class buildingBlockModel extends Component{
             this.model.rotation.y = Math.PI/2;
         }
         scene.add(this.model);
-        console.log(this.model);
     }
 
     destroy(scene){

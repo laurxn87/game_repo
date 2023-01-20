@@ -13,7 +13,7 @@ export default class foodItem extends Entity{
     start(scene){
         this.components["foodItemModel"].start(scene);
         this.components["collision"].start(scene);
-        console.log(this.getCollisionBox());
+        
     }
 
     update(scene){

@@ -13,6 +13,8 @@ export default class collision extends Component {
     start(scene) {
         this.parent.setCollisionBox(this.collisionMesh);
         this.collisionMesh = this.parent.getCollisionBox();
+        console.log(this.parent);
+        scene.add(this.collisionMesh);
     }
     
     updateFilling() { 
@@ -50,6 +52,7 @@ export default class collision extends Component {
     }
 
     updateTruck(){
+
         if(this.collisionMesh == null){
             return null;
         }
@@ -61,7 +64,6 @@ export default class collision extends Component {
 
         this.collisionMesh.geometry.computeBoundingBox();
         this.collisionMesh.geometry.boundingBox.translate(this.position);
-
         for (let i = 0; i < this.parent.getParent().children.length; i++) {
             let child = this.parent.getParent().children[i];
             if (child.getCollisionBox() != null) {
@@ -72,8 +74,10 @@ export default class collision extends Component {
                     // translate the bounding box to the child's poswition
                     child.getCollisionBox().geometry.boundingBox.translate(child.position);
 
+                    console.log(this.intersection(this.collisionMesh, child.getCollisionBox()));
 
                     if (this.collisionMesh.geometry.boundingBox.intersectsBox(child.getCollisionBox().geometry.boundingBox)) {
+                        console.log("COLLISION");
                         this.colliding = true;
                         this.collidingWith = child;
 
@@ -84,6 +88,7 @@ export default class collision extends Component {
         }
 
     }
+
 
     destroy(scene) {
         this.collisionMesh = null;
@@ -120,5 +125,38 @@ export default class collision extends Component {
 
 
     }
+
+    intersection(mesh1, mesh2) {
+        var box1 = mesh1.geometry.boundingBox;
+        var box2 = mesh2.geometry.boundingBox;
+
+        var min1 = box1.min;
+        var max1 = box1.max;
+
+        var min2 = box2.min;
+        var max2 = box2.max;
+
+        var minx1 = min1.x;
+        var miny1 = min1.y;
+        var minz1 = min1.z;
+
+        var maxx1 = max1.x;
+        var maxy1 = max1.y;
+        var maxz1 = max1.z;
+
+        var minx2 = min2.x;
+        var miny2 = min2.y;
+        var minz2 = min2.z;
+
+        var maxx2 = max2.x;
+        var maxy2 = max2.y;
+        var maxz2 = max2.z;
+
+        if(maxx1 < minx2 || minx1 > maxx2 || maxy1 < miny2 || miny1 > maxy2 || maxz1 < minz2 || minz1 > maxz2){
+            return false;
+        }
+        return true;
+    }
+
 
 }

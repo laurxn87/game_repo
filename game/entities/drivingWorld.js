@@ -10,6 +10,8 @@ import { GLTFLoader} from 'GLTFLoader';
 let camera, controls, scene, renderer, canvas;
 let mapCam;
 let ft;
+
+
 export default class drivingWorld 
 extends Entity{
     constructor(parent, name, id){
@@ -48,7 +50,7 @@ extends Entity{
         const aspect = window.innerWidth / window.innerHeight;
         // Create the camera
         camera = new THREE.PerspectiveCamera( 75, this.aspect, 0.1, 1000 );
-        camera.position.set(10, 10, 10);
+        camera.position.set(0, 360, 0);
         camera.lookAt(0,0,0);
         mapCam = camera;
         // Create the renderer
@@ -76,6 +78,7 @@ extends Entity{
         this.map.start(scene);
         this.addChild(this.map);
 
+
         // Create the foodtruck
         ft = new foodtruck(this, "foodtruck", "foodtruck");
         ft.start(scene);
@@ -86,7 +89,6 @@ extends Entity{
         fooditem.start(scene);
         this.addChild(fooditem);
         this.fooditems.push(fooditem);
-
 
 
         // render

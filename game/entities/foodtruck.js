@@ -69,7 +69,7 @@ export default class foodtruck extends Entity{
     
     fitTruckToBox(box, offset, scene){
         box = new THREE.BoxGeometry(box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z);
-        var mesh = new THREE.Mesh(box, new THREE.MeshBasicMaterial({color: 0x000000}));
+        var mesh = new THREE.Mesh(box, new THREE.MeshBasicMaterial({color: 0x000000, wireframe:true}));
         mesh.position.copy(offset);
         mesh.updateMatrix();
         mesh.geometry.applyMatrix4(mesh.matrix);
