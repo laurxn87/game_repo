@@ -43,6 +43,7 @@ export default class foodtruck extends Entity{
             }
             else if(this.components["collision"].getCollidingWith().name == "foodItem"){
                 this.pickupFoodItem(this.getComponent("collision").getCollidingWith(),scene);
+                this.getComponent("collision").resetCollision();
             }
         }
         

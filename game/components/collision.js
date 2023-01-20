@@ -7,14 +7,15 @@ export default class collision extends Component {
         this.colliding = false;
         this.collidingWith = null;
         this.parent = parentEntity;
-        this.collisionMesh = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true }));
+        this.collisionMesh = new THREE.Mesh(new THREE.BoxGeometry(this.parent.scale.x,this.parent.scale.y,this.parent.scale.z), new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true }));
+        this.collisionMesh.name = this.parent.name + "Collision";
     }
     
     start(scene) {
         this.parent.setCollisionBox(this.collisionMesh);
         this.collisionMesh = this.parent.getCollisionBox();
-        console.log(this.parent);
-        scene.add(this.collisionMesh);
+        this.collisionMesh.position.set(this.parent.position.x, this.parent.position.y, this.parent.position.z);
+        this.collisionMesh.rotation.set(this.parent.rotation.x, this.parent.rotation.y, this.parent.rotation.z);
     }
     
     updateFilling() { 
@@ -52,12 +53,12 @@ export default class collision extends Component {
     }
 
     updateTruck(){
-
         if(this.collisionMesh == null){
             return null;
         }
         this.position = this.parent.position;
         this.rotation = this.parent.rotation;
+
         this.scale = this.parent.scale;
         this.collisionMesh.position.set(this.position.x, this.position.y, this.position.z);
         this.collisionMesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
@@ -74,10 +75,7 @@ export default class collision extends Component {
                     // translate the bounding box to the child's poswition
                     child.getCollisionBox().geometry.boundingBox.translate(child.position);
 
-                    console.log(this.intersection(this.collisionMesh, child.getCollisionBox()));
-
                     if (this.collisionMesh.geometry.boundingBox.intersectsBox(child.getCollisionBox().geometry.boundingBox)) {
-                        console.log("COLLISION");
                         this.colliding = true;
                         this.collidingWith = child;
 

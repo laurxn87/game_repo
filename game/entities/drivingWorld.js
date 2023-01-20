@@ -11,7 +11,6 @@ let camera, controls, scene, renderer, canvas;
 let mapCam;
 let ft;
 
-
 export default class drivingWorld 
 extends Entity{
     constructor(parent, name, id){
@@ -89,8 +88,7 @@ extends Entity{
         fooditem.start(scene);
         this.addChild(fooditem);
         this.fooditems.push(fooditem);
-
-
+        
         // render
         renderer.render(scene, camera);
 
@@ -200,10 +198,13 @@ extends Entity{
             case 'c':
                 if (camera == ft.getCamera()){
                     camera = mapCam;
+                    camera.name = "mapCam";
                 } else {
                     camera = ft.getCamera();
-
+                    camera.name = "ftCam";
                 }
+                console.log(controls);
+                controls = new OrbitControls(camera, renderer.domElement );
                 break;
             case 'r':
                 if(camera == ft.getCamera()){

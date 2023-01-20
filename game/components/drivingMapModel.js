@@ -27,7 +27,6 @@ export default class drivingMapModel extends Component{
             model.scale.z = 200;
             scene.add(model);
             var size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
-            console.log(size);
 
 
         }, undefined, function ( error ) {
