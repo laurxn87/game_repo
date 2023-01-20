@@ -17,7 +17,8 @@ export default class foodtruck extends Entity{
         this.inventory = 0;
         this.isDestroyed = false;
         this.collisionBox;
-
+        this.prevPos = new THREE.Vector3(0,0,0);
+        this.prevRot = new THREE.Vector3(0,0,0);
     }
 
     start(scene){
@@ -26,7 +27,6 @@ export default class foodtruck extends Entity{
         // increment the angle by the turnspeed or something 
         this.components["followCamera"].start(scene);
         this.components["collision"].start(scene);
-
     }
 
     update(scene){
@@ -38,8 +38,14 @@ export default class foodtruck extends Entity{
         this.components["followCamera"].update();
         this.components["collision"].updateTruck();
         if(this.components["collision"].hasCollided()){
-            if(this.components["collision"].getCollidingWith().name == "buildingBlock2x3" || this.components["collision"].getCollidingWith().name == "buildingBlock2x4"){
-                this.getComponent("foodtruckModel").block();
+            if(this.components["collision"].getCollidingWith().name == "block"){
+                // console.log("hit building block");  
+                // this.getComponent("foodtruckController").block();
+                console.log("hit building block");
+                this.components["collision"].getCollidingWith().getComponent("collision").resetCollision();
+                this.getComponent("collision").resetCollision();
+            
+                
             }
             else if(this.components["collision"].getCollidingWith().name == "foodItem"){
                 this.pickupFoodItem(this.getComponent("collision").getCollidingWith(),scene);
@@ -80,6 +86,7 @@ export default class foodtruck extends Entity{
         mesh.scale.set(1,1,1);
 
         this.getComponent("collision").changeCollisionBox(scene, mesh);
+        scene.add(mesh);
 
     }
 }

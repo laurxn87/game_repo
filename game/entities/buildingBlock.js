@@ -11,15 +11,22 @@ export default class buildingBlock extends Entity{
         this.vertical = vertical;
         this.posx = posx;
         this.posz = posz;
-        if(this.size == '2x3'){
+        if(this.size == '2x3' && this.vertical){
             this.setScale(40,10,60);
         }
-        else if(this.size == '2x4'){
+        else if(this.size == '2x4' && this.vertical){
             this.setScale(40,10,80);
         }
-        if(!this.vertical){
-            this.setRotation(0,Math.PI/2,0);
+        else if(this.size == '2x3' && !this.vertical){
+            this.setScale(60,10,40);
+        }   
+        else if(this.size == '2x4' && !this.vertical){
+            this.setScale(80,10,40);
         }
+        else{
+            console.error("Invalid size for building block");
+        }
+        
 
 
         this.addComponent(new buildingBlockModel("",this,"buildingBlockModel", id));
@@ -33,7 +40,7 @@ export default class buildingBlock extends Entity{
         }
 
     update(scene){
-        this.components["collision"].update();
+        this.components["collision"].updateTruck();
 
         if(this.components["collision"].hasCollided()){
             console.log("hit building block");
@@ -55,4 +62,6 @@ export default class buildingBlock extends Entity{
         this.parent.removeEntity(this);
 
     }
+
+
 }

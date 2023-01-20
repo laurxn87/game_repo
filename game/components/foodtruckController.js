@@ -21,12 +21,16 @@ export default class foodtruckController extends Component{
         this.stopping = false;
         this.stopped = false;
         this.turnRadius = 0.5;
+        this.prevPosition;
+        this.prevRotation;
     }
 
 
     start(){
         this.model = this.parent.components["foodtruckModel"];
         this.model.position = new THREE.Vector3(0,0,0);
+        this.prevPosition = new THREE.Vector3(0,0,0);
+        this.prevRotation = new THREE.Vector3(0,0,0);
     }
 
     update(){   
@@ -95,7 +99,8 @@ export default class foodtruckController extends Component{
                 }
             }
         }
-
+        this.prevPosition = this.model.position;
+        this.prevRotation = this.model.rotation;
         // use suvat equations to update the position of the truck
         this.model.position.z += this.speed * Math.cos(this.model.rotation.y);
         this.model.position.x += this.speed * Math.sin(this.model.rotation.y);
@@ -158,5 +163,11 @@ export default class foodtruckController extends Component{
     destroy(){
         this.model = null;
         this.parent = null;
+    }
+
+    block(){
+        console.log("blocking");
+        this.model.position = this.prevPosition;
+        this.model.rotation = this.prevRotation;
     }
 }

@@ -7,15 +7,18 @@ export default class collision extends Component {
         this.colliding = false;
         this.collidingWith = null;
         this.parent = parentEntity;
-        this.collisionMesh = new THREE.Mesh(new THREE.BoxGeometry(this.parent.scale.x,this.parent.scale.y,this.parent.scale.z), new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true }));
-        this.collisionMesh.name = this.parent.name + "Collision";
+        this.collisionMesh;
     }
     
     start(scene) {
-        this.parent.setCollisionBox(this.collisionMesh);
-        this.collisionMesh = this.parent.getCollisionBox();
+        this.collisionMesh = new THREE.Mesh( new THREE.BoxGeometry(this.parent.scale.x, this.parent.scale.y, this.parent.scale.z), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.5}));
+        this.collisionMesh.name = this.parent.getName() + "CollisionBox";
+        // this.collisionMesh.scale.set(this.parent.scale.x, this.parent.scale.y, this.parent.scale.z);
         this.collisionMesh.position.set(this.parent.position.x, this.parent.position.y, this.parent.position.z);
         this.collisionMesh.rotation.set(this.parent.rotation.x, this.parent.rotation.y, this.parent.rotation.z);
+        this.parent.setCollisionBox(this.collisionMesh);
+        this.collisionMesh = this.parent.getCollisionBox();
+        scene.add(this.collisionMesh);
     }
     
     updateFilling() { 
@@ -69,13 +72,19 @@ export default class collision extends Component {
             let child = this.parent.getParent().children[i];
             if (child.getCollisionBox() != null) {
                 if(child.getName() != this.parent.getName()){
+
+                    
                     // compute the bounding box of the child
                     child.getCollisionBox().geometry.computeBoundingBox();
-  
+
                     // translate the bounding box to the child's poswition
                     child.getCollisionBox().geometry.boundingBox.translate(child.position);
 
+                    
+                    // console.log(this.collisionMesh.position);
+
                     if (this.collisionMesh.geometry.boundingBox.intersectsBox(child.getCollisionBox().geometry.boundingBox)) {
+                        // console.log(child.rotation);
                         this.colliding = true;
                         this.collidingWith = child;
 

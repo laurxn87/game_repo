@@ -43,20 +43,11 @@ export default class map extends Entity{
         this.components["drivingMapModel"].start(scene);
         // make all the building blocks
         for(let i = 1; i <= 23; i++){
-            var block = new buildingBlock(this, "block", i, mapPlan["block"+i].Size,mapPlan["block"+i].Vertical, mapPlan["block"+i].Position.x, mapPlan["block"+i].Position.z);
-            this.parent.addChild(block);
-            block.start(scene);
+                var block = new buildingBlock(this, "block", i, mapPlan["block"+i].Size,mapPlan["block"+i].Vertical, mapPlan["block"+i].Position.x, mapPlan["block"+i].Position.z);
+                this.parent.addChild(block);
+                block.start(scene);   
         }
-
     }
-
-    // update(){
-    //     this.update();
-    // }
-
-    // getEntity(){
-    //     return this;
-    // }
     
     destroy(scene){
         this.components["drivingMapModel"].destroy(scene);

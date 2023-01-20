@@ -52,7 +52,7 @@ export default class buildingBlockModel extends Component{
         if(!vertical){
             this.model.rotation.y = Math.PI/2;
         }
-        scene.add(this.model);
+        // scene.add(this.model);
     }
 
     destroy(scene){

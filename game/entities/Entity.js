@@ -81,6 +81,7 @@ export default class Entity{
     setCollisionBox(collisionMesh){
         this.collisionBox = collisionMesh;
         this.collisionBox.position.set(this.position.x, this.position.y, this.position.z);
+        this.collisionBox.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
     }
 
     getCollisionBox(){
