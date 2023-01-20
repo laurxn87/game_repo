@@ -83,6 +83,70 @@
             margin-bottom: 0.5rem;
             color: rgb(255, 255, 255);
         }
+        .health {
+            position: absolute;
+            z-index:1;
+            top:35px;
+            right:0px;
+            font-size:1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+        }
+        .health__back {
+            position: absolute;
+            z-index:1;
+            top:40px;
+            right:0px;
+            background: rgb(97, 97, 97);
+            width: 200px;
+            height: 20px;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+        .health__bar {
+            position: absolute;
+            z-index:1;
+            top:40px;
+            right:0px;
+            background: rgb(161, 3, 3);
+            width: 200px;
+            height: 20px;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+        .inventory {
+            position: absolute;
+            z-index:1;
+            top:100px;
+            right:0px;
+            font-size:1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: rgb(255, 255, 255);
+        }
+        .inventory__back {
+            position: absolute;
+            z-index:1;
+            top:40px;
+            right:0px;
+            background: rgb(97, 97, 97);
+            width: 200px;
+            height: 20px;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+        .inventory__bar {
+            position: absolute;
+            z-index:1;
+            top:40px;
+            right:0px;
+            background: rgb(2, 90, 5);
+            width: 200px;
+            height: 20px;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 
@@ -92,6 +156,16 @@
    <button id = "button2" onclick="window.location.href='./main.html';">Exit</button>
    <button id = "pauseButton">Pause</button>
    <div class="timer" id="timer"></div>
+   <div class="health" id="health"> Health
+         <div class="health__back" id="health-back"></div>
+        <div class="health__bar" id="health-bar">
+         </div>
+   </div>
+   <div class="inventory" id="inventory"> Inventory
+    <div class="inventory__back" id="inventory-back"></div>
+   <div class="inventory__bar" id="inventory-bar">
+    </div>
+</div>
 
    <div class="screen" id="gameover-screen">
     <div class="screen__title" id="gameover-title"></div>

@@ -18,7 +18,6 @@ export default class collision extends Component {
         this.collisionMesh.rotation.set(this.parent.rotation.x, this.parent.rotation.y, this.parent.rotation.z);
         this.parent.setCollisionBox(this.collisionMesh);
         this.collisionMesh = this.parent.getCollisionBox();
-        scene.add(this.collisionMesh);
     }
     
     updateFilling() { 

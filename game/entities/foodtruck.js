@@ -3,6 +3,7 @@ import foodtruckModel from '../components/foodtruckModel.js'
 import foodtruckController from '../components/foodtruckController.js'
 import followCamera from '../components/followCamera.js'
 import collision from '../components/collision.js'
+import healthInventory from '../components/healthInventory.js'
 import {OBB} from 'OBB'
 import * as THREE from 'three';
 
@@ -14,6 +15,8 @@ export default class foodtruck extends Entity{
         this.addComponent(new foodtruckController(this,"foodtruckController", "foodtruckController"));
         this.addComponent(new followCamera(this, "followCamera", "followCamera"));
         this.addComponent(new collision(this, "collision", "collision"));
+        this.addComponent(new healthInventory(this, "healthInventory", "healthInventory"));
+
         this.inventory = 0;
         this.isDestroyed = false;
         this.collisionBox;
@@ -28,6 +31,7 @@ export default class foodtruck extends Entity{
         // increment the angle by the turnspeed or something 
         this.components["followCamera"].start(scene);
         this.components["collision"].start(scene);
+        this.components["healthInventory"].start();
     }
 
     update(scene){
@@ -40,11 +44,13 @@ export default class foodtruck extends Entity{
         this.components["collision"].updateTruck();
         if(this.components["collision"].hasCollided()){
             if(this.components["collision"].getCollidingWith().name == "block"){
+            //    while(this.components["collision"].hasCollided()){
+
                 this.getComponent("foodtruckController").block();
                 this.components["collision"].getCollidingWith().getComponent("collision").resetCollision();
                 this.getComponent("collision").resetCollision();
             
-                
+            //    }
             }
             else if(this.components["collision"].getCollidingWith().name == "foodItem"){
                 this.pickupFoodItem(this.getComponent("collision").getCollidingWith(),scene);
@@ -66,6 +72,7 @@ export default class foodtruck extends Entity{
         this.components["foodtruckController"].destroy();
         this.components["followCamera"].destroy(scene);
         this.components["collision"].destroy();
+        this.components["healthInventory"].destroy();
         this.isDestroyed = true;
     }
 
@@ -85,7 +92,6 @@ export default class foodtruck extends Entity{
         mesh.scale.set(1,1,1);
 
         this.getComponent("collision").changeCollisionBox(scene, mesh);
-        scene.add(mesh);
 
     }
 }

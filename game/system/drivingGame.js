@@ -40,6 +40,7 @@ drivingGame {
         var button = document.getElementById    ("restart-button");
         button.addEventListener("click", this.restartGame, false);
 
+
     }
 
     restartGame(){

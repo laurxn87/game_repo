@@ -6,7 +6,7 @@ export default class foodtruckController extends Component{
         super(parentEntity,name, id);
         this.model = null;
         this.speed = 0;
-        this.maxSpeed = 0.7;
+        this.maxSpeed = 0.6;
         this.acceleration = 0.002;
         this.deceleration = 0.003;
         this.turnSpeed = 0.01;
