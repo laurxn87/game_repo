@@ -7,6 +7,7 @@ export default class order extends Entity {
         this.orderlist = [];
         this.orderLength;
         this.score;
+        this.name = name;
     }
 
     setItem(slot, itemName){
@@ -18,8 +19,10 @@ export default class order extends Entity {
         const div = document.getElementsByClassName("order-ui")[0].getElementsByClassName("order-ui__list")[0].getElementsByClassName("order-ui__item")[slot];
         const img = document.createElement("img");
         img.src = "../models/"+itemName+"Image.jpg";
-        img.style.width = "25%";
-        img.style.height = "25%";
+        img.style.width = "50%";
+        img.style.height = "50%";
+        img.style.border = "2px solid #e22b77";
+        img.style.borderRadius = "50%";
 
         div.appendChild(img);
 

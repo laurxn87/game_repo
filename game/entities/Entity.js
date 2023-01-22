@@ -50,6 +50,14 @@ export default class Entity{
         return this.children;
     }
 
+    getChild(name){
+        for (var i = 0; i < this.children.length; i++){
+            if (this.children[i].name == name){
+                return this.children[i];
+            }
+        }
+        return null;
+    }
     getParent(){
         return this.parent;
     }

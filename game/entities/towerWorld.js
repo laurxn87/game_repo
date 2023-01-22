@@ -174,11 +174,10 @@ export default class towerWorld extends Entity{
     destroy(){
         this.pause = true;
         // Remove the event listeners
-        window.removeEventListener( 'resize', this.onWindowResize, false );
         window.removeEventListener( 'keydown', this.onKeyDown, false );
 
         renderer.clear();
-        
+        renderer.setClearColor((138, 43, 226), 1);
 
         // Remove the camera
         camera = null;

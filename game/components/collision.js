@@ -24,15 +24,31 @@ export default class collision extends Component {
         if(this.collisionMesh == null){
             return null;
         }
+        
         this.position = this.parent.position;
         this.scale = this.parent.scale;
         this.collisionMesh.position.set(this.position.x, this.position.y, this.position.z);
 
         this.collisionMesh.geometry.computeBoundingBox();
         this.collisionMesh.geometry.boundingBox.translate(this.position);
-
-        for (let i = 0; i < this.parent.getParent().children.length; i++) {
-            let child = this.parent.getParent().children[i];
+        // console.log(this.parent, this.parent.getParent());
+        var childList;
+        if(this.parent.name == "tower"){
+            childList = this.parent.getParent().getChild("dropper").dropper;
+        }
+        else if(this.parent.getParent().name == "dropper"){
+            childList = [this.parent.getParent().getParent().getChild("tower")];
+            console.log(childList);
+        }
+        else{
+            childList = this.parent.getParent().children;
+        }
+        for (let i = 0; i < childList.length; i++) {
+            let child = childList[i];
+            if(child == null){
+                return null;
+            }
+            // console.log(child);
             if (child.getCollisionBox() != null) {
                 if(child.getName() != this.parent.getName()){
                     // compute the bounding box of the child
@@ -41,8 +57,8 @@ export default class collision extends Component {
                     // translate the bounding box to the child's position
                     child.getCollisionBox().geometry.boundingBox.translate(child.position);
 
-
                     if (this.collisionMesh.geometry.boundingBox.intersectsBox(child.getCollisionBox().geometry.boundingBox)) {
+                        console.log("colliding with " + child.getName());
                         this.colliding = true;
                         this.collidingWith = child;
                     }

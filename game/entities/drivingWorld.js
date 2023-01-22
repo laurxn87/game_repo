@@ -263,7 +263,6 @@ extends Entity{
     destroy(){
         this.pause = true;
         // remove event listeners
-        window.removeEventListener( 'resize', this.onWindowResize, false );
         window.removeEventListener( 'keydown', this.onKeyDown, false );
         window.removeEventListener( 'keyup', this.onKeyDown, false );
         renderer.clear();

@@ -45,8 +45,9 @@ export default class dropper extends Entity{
     update(scene){
         this.timeLeft = this.prevTime - Math.round(this.clock.getElapsedTime());
         if(this.timeLeft < 0){
+            var score = this.parent.getChild("order").getScore();
             this.parent.parent.gameOver("You Lose! Better luck next time","You ran out of time!"
-            ,this.parent.getChildren("order").getScore());
+            ,score);
         }
 
         const timer = document.getElementById("timer");
