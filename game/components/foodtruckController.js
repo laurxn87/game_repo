@@ -105,6 +105,9 @@ export default class foodtruckController extends Component{
         this.model.position.z += this.speed * Math.cos(this.model.rotation.y);
         this.model.position.x += this.speed * Math.sin(this.model.rotation.y);
         this.model.rotation.y += this.turnSpeed;
+        if(this.model.position.x < -230 || this.model.position.x > 230 || this.model.position.z < -160 || this.model.position.z > 160){
+            this.block();
+        }
 
     }
 

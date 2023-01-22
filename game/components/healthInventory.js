@@ -57,26 +57,34 @@ export default class healthInventory extends Component {
         }
         var healthBar = document.getElementById("health-bar");
         healthBar.style.width = (this.health*2.5) + "%";
+        console.log("health: " + this.health);
     }
 
     removeHealth(amount){
         this.health -= amount;
         if(this.health < 0){
-            this.health = 0;
+            this.parent.getParent().getParent().gameOver("You lost!", "You ran out of health!", this.getScore());
         }
+
         var healthBar = document.getElementById("health-bar");
         healthBar.style.width = (this.health*2.5) + "%";
+        console.log("health: " + this.health);
     }
 
     addInventory(){ 
-        if(this.inventory.length < this.maxInventory){
+        if(this.inventory < this.maxInventory){
             this.inventory += 1;
             var inventoryBar = document.getElementById("inventory-bar");
             inventoryBar.style.width = 
             (this.inventory.length/this.maxInventory)*170 + "%";
+            console.log("inventory: " + this.inventory);
 
         }
-        this.parent.getParent().getParent().gameOver("You won!", "You collected all the food!", 100);
+        this.parent.getParent().getParent().gameOver("You won!", "You collected all the food!", this.getScore());
+    }
+
+    getScore(){
+        return this.inventory/this.maxInventory * 100;
     }
 
     

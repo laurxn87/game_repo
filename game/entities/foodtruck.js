@@ -44,13 +44,14 @@ export default class foodtruck extends Entity{
         this.components["collision"].updateTruck();
         if(this.components["collision"].hasCollided()){
             if(this.components["collision"].getCollidingWith().name == "block"){
-            //    while(this.components["collision"].hasCollided()){
-
                 this.getComponent("foodtruckController").block();
-                this.components["collision"].getCollidingWith().getComponent("collision").resetCollision();
+
+               console.log(this.getComponent("healthInventory"));
+
+                this.getComponent("healthInventory").removeHealth(0.1);
+               this.components["collision"].getCollidingWith().getComponent("collision").resetCollision();
                 this.getComponent("collision").resetCollision();
             
-            //    }
             }
             else if(this.components["collision"].getCollidingWith().name == "foodItem"){
                 this.pickupFoodItem(this.getComponent("collision").getCollidingWith(),scene);
@@ -65,6 +66,8 @@ export default class foodtruck extends Entity{
         this.inventory+=1;
         foodItem.destroy(scene);
         this.getComponent("collision").resetCollision();
+        this.getComponent("healthInventory").addInventory();
+        this.getComponent("healthInventory").addHealth(5);
     }
 
     destroy(scene){

@@ -11,7 +11,7 @@ let camera, controls, scene, renderer, canvas;
 let mapCam;
 let ft;
 let junctions = [
-    
+
 ]
 
 export default class drivingWorld 
@@ -65,13 +65,17 @@ extends Entity{
         renderer.setClearColor( 0x000000, 1 );
 
         // add lighting
-        var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+        var light = new THREE.AmbientLight( 0x404040,0.3 ); // soft white light
         scene.add( light );
 
-        var directionalLight = new THREE.DirectionalLight( 0xffffff, 10.0 );
-        directionalLight.position.set( 0, 1, 0 );
-        scene.add( directionalLight );
+        var directionalLight1 = new THREE.DirectionalLight( 0xffffff,2.5 );
+        directionalLight1.position.set( 50, 200, 0 );
+        scene.add( directionalLight1 );
+        var directionalLight2 = new THREE.DirectionalLight( 0xffffff,2.5 );
+        directionalLight2.position.set(-50, 200, 0 );
+        scene.add( directionalLight2 );
 
+    
         // Create the controls
         controls = new OrbitControls(camera, renderer.domElement );
 
@@ -114,7 +118,8 @@ extends Entity{
         timer.innerHTML = "Time Left: " + this.formatTimeLeft(this.timeLeft);
         //   if the time runs out, end the game
         if(this.timeLeft <= 0){
-            this.parent.gameOver();
+            var score = ft.getComponent("healthInventory").getScore();
+            this.parent.gameOver("You Lost!", "Time ran out!", score);
         }
         if(!this.pause){
             ft.update(scene);
@@ -186,13 +191,25 @@ extends Entity{
             case 'w':
                 ft.getComponent("foodtruckController").backward();
                 break;
+            case 'W':
+                ft.getComponent("foodtruckController").backward();
+                break;                
             case 's':
+                ft.getComponent("foodtruckController").forward();
+                break;
+            case 'S':
                 ft.getComponent("foodtruckController").forward();
                 break;
             case 'a':   
                 ft.getComponent("foodtruckController").turnLeft();
                 break;
+            case 'A':
+                ft.getComponent("foodtruckController").turnLeft();
+                break;
             case 'd':
+                ft.getComponent("foodtruckController").turnRight();
+                break;
+            case 'D':
                 ft.getComponent("foodtruckController").turnRight();
                 break;
             case ' ':
@@ -206,14 +223,19 @@ extends Entity{
                     camera = ft.getCamera();
                     camera.name = "ftCam";
                 }
-                console.log(controls);
                 controls = new OrbitControls(camera, renderer.domElement );
                 break;
-            case 'r':
-                if(camera == ft.getCamera()){
-                    ft.getComponent("followCamera").reverseCam();
+            case 'C':
+                if (camera == ft.getCamera()){
+                    camera = mapCam;
+                    camera.name = "mapCam";
+                } else {
+                    camera = ft.getCamera();
+                    camera.name = "ftCam";
                 }
+                controls = new OrbitControls(camera, renderer.domElement );
                 break;
+
             default:
                 break;
         }
